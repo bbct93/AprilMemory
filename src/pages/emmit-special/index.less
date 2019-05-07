@@ -1,0 +1,55 @@
+page {
+    height: 100%;
+}
+.module-one {
+    background: red;
+    border-bottom: 1px solid blueviolet;
+    position: relative;
+    .icon-aixin2 {
+        font-size: 64px;
+        color: aqua;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+
+
+.module-one-animation {
+    animation: module_one 3s linear;
+    animation-fill-mode: forwards;
+}
+
+.module-two {
+    background: yellow;
+    position: relative;
+}
+
+.module-two-animation {
+    animation: module_two 3s linear;
+    animation-fill-mode: forwards;
+}
+.back-content {
+    top: 66px;
+    position: absolute;
+    z-index: -100;
+}
+
+
+@keyframes module_one {
+    from {top: 0px;}
+    to {top: -250px}
+}
+
+@keyframes module_two {
+    from {bottom: 0px;}
+    to {bottom: -500px}
+}
+
+@keyframes module_aixin {
+    from {top: 45%;}
+    to {top:-500px}
+}
+
+

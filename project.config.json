@@ -1,0 +1,15 @@
+{
+	"description": "a simple samll app to record life",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxb9de856d58940bae",
+	"projectname": "memory",
+	"miniprogramRoot": "dist/",
+	"condition": {}
+}

@@ -1,0 +1,120 @@
+<style lang="less" src="./index.less"></style>
+
+<template>
+    <view style="height: {{height}}px;overflow:auto">
+        <view class="module-one {{animation ? 'module-one-animation' : ''}}" style="height: {{height/2}}px">
+            <text class="iconfont icon-aixin2" @tap="startAnimation"></text>
+        </view>
+        <view class="main-content">
+            <view class="top-header"></view>
+            <view class="content-wraper">
+                <view class="base-info">
+                    <view class="metting">我们相逢在10年后</view>
+                    <view class="now">我们的故事开始了 </view>
+                    <view class="record-time">{{time.day + '天 ' + time.hour + '小时 ' + time.minute + '分钟 ' + time.second + '秒'}}</view>
+                </view>
+
+                <view class="daily-record">
+                    <image class="time-point-img" src="http://ahbbct.cn:8090/images/time-point.jpg" />
+                    <view class="record-main">
+                        <view class="record-time">
+                            5月1日20:34
+                        </view>
+                        <view class="text-content">感谢妇联4，感谢党和政委，最主要的是感谢万达IMax开的十足的冷气，我们在一起了❤️️️️️❤️</view>
+                        <view class="media-wrap">
+                            <view></view>
+                            <image catchtap="previewImage" data-src="http://ahbbct.cn:8090/images/fl4.jpeg" class="record-image" src="http://ahbbct.cn:8090/images/fl4.jpeg" />
+                        </view>
+                    </view>
+                </view>
+                <view class="daily-record">
+                    <image class="time-point-img" src="http://ahbbct.cn:8090/images/time-point.jpg" />
+                    <view class="record-main">
+                        <view class="record-time">
+                            5月2日20:51
+                        </view>
+                        <view class="text-content">盛意以江河，江河不如你❤️❤️️️️️❤️</view>
+                        <view class="media-wrap">
+                            <image @tap="previewImage" data-src="http://ahbbct.cn:8090/images/shadow.jpg" class="record-image" src="http://ahbbct.cn:8090/images/shadow.jpg" />
+                        </view>
+                    </view>
+                </view>
+            </view>
+            
+        </view>
+        <view class="module-two {{animation ? 'module-two-animation' : ''}}" style="height: {{height/2}}px">
+        </view>
+        
+    </view>
+</template>
+
+<script lang="TypeScript">
+import wepy from "wepy";
+import Config from '../../config/index'
+
+  export default class GroupDatail extends wepy.page {
+      data={
+          height: Config.windowHeight,
+          animation: false,
+          appMusic: '',
+          time: ''
+      }
+
+      onLoad() {
+            wx.playBackgroundAudio({
+            dataUrl: 'http://ahbbct.cn:8090/images/bgm_bak.mp3'
+        });
+        const startTime = "2019-05-01 20:30:00";
+        setInterval(() => {
+            this.time = this.getRemainderTime(startTime);
+            this.$apply();
+        }, 1000);
+        
+        
+      }
+
+      
+
+      methods={
+          hahah() {
+              wx.navigateTo({
+                url: `/pages/emmit-special/index`
+                });
+          },
+          startAnimation() {
+              this.animation = true;
+              this.$apply();
+          }
+      }
+
+     /* 图片预览 */
+    previewImage(e) {
+	console.log("TCL: Setting -> previewImage -> e", e.currentTarget.dataset.src)
+    wx.previewImage({
+        current: e.currentTarget.dataset.src,
+        urls: [e.currentTarget.dataset.src]
+    })
+    }
+
+    getRemainderTime (startTime){
+        var s1 = new Date(startTime.replace(/-/g, "/")),
+        s2 = new Date(),
+        runTime = parseInt((s2.getTime() - s1.getTime()) / 1000);
+        var year = Math.floor(runTime / 86400 / 365);
+        runTime = runTime % (86400 * 365);
+        var month = Math.floor(runTime / 86400 / 30);
+        runTime = runTime % (86400 * 30);
+        var day = Math.floor(runTime / 86400);
+        runTime = runTime % 86400;
+        var hour = Math.floor(runTime / 3600);
+        runTime = runTime % 3600;
+        var minute = Math.floor(runTime / 60);
+        runTime = runTime % 60;
+        var second = runTime;
+        return { year, month, day, hour, minute, second}
+ 
+}
+
+    }
+
+</script>
