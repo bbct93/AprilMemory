@@ -5,7 +5,8 @@ let system_version = null;
 let statusBarHeight = null;
 let systemInfo = null;
 let model = null;
-
+// false--本地测试  true---腾讯云服务
+let prod = false;
 
 wx.getSystemInfo({
     success: function(res) {
@@ -19,6 +20,7 @@ wx.getSystemInfo({
     }
   });
 const config = {
+  my_host: prod ? 'www.ahbbct.cn' : 'http://127.0.0.1:8080',
     // 当前设备名称
   device: model,
   // 当前设备系统

@@ -50,7 +50,8 @@
 
 <script lang="TypeScript">
 import wepy from "wepy";
-import Config from '../../config/index'
+import Config from '../../config/index';
+import WebApi from './webapi'
 
   export default class GroupDatail extends wepy.page {
       data={
@@ -60,7 +61,7 @@ import Config from '../../config/index'
           time: ''
       }
 
-      onLoad() {
+      async onLoad() {
             wx.playBackgroundAudio({
             dataUrl: 'http://ahbbct.cn:8090/images/bgm_bak.mp3'
         });
@@ -69,6 +70,9 @@ import Config from '../../config/index'
             this.time = this.getRemainderTime(startTime);
             this.$apply();
         }, 1000);
+
+        const res = await WebApi.testMysql();
+        console.log('----------ct---------', res);
         
         
       }
