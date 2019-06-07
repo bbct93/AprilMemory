@@ -71,10 +71,8 @@ import WebApi from './webapi'
             this.$apply();
         }, 1000);
 
-        const res = await WebApi.testMysql();
-        console.log('----------ct---------', res);
-        
-        
+        const { data } = await  WebApi.testMysql();
+        console.log('----------page---------', data);
       }
 
       
@@ -105,9 +103,9 @@ import WebApi from './webapi'
         s2 = new Date(),
         runTime = parseInt((s2.getTime() - s1.getTime()) / 1000);
         var year = Math.floor(runTime / 86400 / 365);
-        runTime = runTime % (86400 * 365);
+        // runTime = runTime % (86400 * 365);
         var month = Math.floor(runTime / 86400 / 30);
-        runTime = runTime % (86400 * 30);
+        // runTime = runTime % (86400 * 30);
         var day = Math.floor(runTime / 86400);
         runTime = runTime % 86400;
         var hour = Math.floor(runTime / 3600);

@@ -20,7 +20,7 @@ wx.getSystemInfo({
     }
   });
 const config = {
-  my_host: prod ? 'www.ahbbct.cn' : 'http://127.0.0.1:8080',
+  my_host: prod ? 'http://www.ahbbct.cn' : 'http://ahbbct.cn:8080',
     // 当前设备名称
   device: model,
   // 当前设备系统

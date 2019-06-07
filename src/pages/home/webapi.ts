@@ -1,10 +1,11 @@
 import { Fetch } from '../../ctkits/index';
 
 function testMysql() {
-    return Fetch.fetch({
+    return  Fetch.fetch({
         url: `/aaa`,
         method: 'GET',
       });
+
 }
 
 
