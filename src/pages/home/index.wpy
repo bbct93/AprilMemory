@@ -71,7 +71,7 @@ import WebApi from './webapi'
             this.$apply();
         }, 1000);
 
-        const { data } = await  WebApi.testMysql();
+        const { data } = await  WebApi.mysql();
         console.log('----------page---------', data);
       }
 

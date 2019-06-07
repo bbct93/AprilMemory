@@ -26,8 +26,7 @@ async function Common(params: IFetch) {
     Authorization: session
   };
   url = methodUrl;
-  var result = null;
-
+  console.log('----------传参---------', data);
   return new Promise(resolve => {
     wx.request({
       url, //仅为示例，并非真实的接口地址
