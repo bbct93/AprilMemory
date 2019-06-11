@@ -12,7 +12,7 @@ function mysql() {
     return  Fetch.fetch({
         url: `/mysql`,
         method: 'POST',
-        data: {name: '陈涛'}
+        data: {name: '蚌埠三中'}
       });
 
 }

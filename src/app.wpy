@@ -10,8 +10,8 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/home/index',
-      'pages/emmit-special/index'
-    ],
+      'pages/add-daily/index'
+          ],
     requiredBackgroundModes: ["audio"],
 
     window: {

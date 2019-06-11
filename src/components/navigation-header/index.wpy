@@ -1,0 +1,102 @@
+<style lang="less" src="./index.less">
+
+</style>
+
+<template>
+    <view>
+        <view style="background: {{navigation.background || '#fff'}}; height: {{navHeight || AppConfig.navigationHeight}}px;opacity: {{navigation.opacity || 1}}" class="navigation-header">
+            <view class="navigation-top" style="height: {{statusBarHeight}}px"/>
+            <view class="navigation-content {{AppConfig.device_platform == 'android' ? 'android-content': ''}}">
+                
+                <!-- <view @tap="jumpToRoutes" class="jumpIcon" style="background:{{navigation.returnShow==true?'':'rgba(255, 255, 255, 0.5)'}};border:{{navigation.homeShow==true?'':'0.1px solid rgba(235, 235, 235, 1)'}};"> -->
+                <view @tap="jumpToRoutes" class="jumpIcon {{navigation.returnShow!=null && navigation.returnShow ? 'jumpBackReturn' : ''}}" >
+                    <view wx:if="{{navigation.returnShow}}" class="iconfont icon-fanhui {{AppConfig.device_platform == 'android' ? 'android-icon': ''}}" />
+                    <view wx:if="{{navigation.homeShow}}" class="iconfont icon-card-home {{AppConfig.device_platform == 'android' ? 'android-icon': ''}}" />
+                </view>
+
+                <view class="navigation-title navigation-line-1 {{AppConfig.device_platform == 'android' ? 'android-title': ''}}">
+                    {{navigation.title}}
+                </view>
+
+                <view class="navigation-right" />
+            </view>
+        </view>
+        <view wx:if="{{networkConnected == 'none'}}" class="network" style="top: {{navHeight}}px">
+            <text style="color: #fff">当前网络不可用，请检查你的网络设置</text>
+        </view>
+
+        <view style="height: {{navigation.navHeight || AppConfig.navigationHeight}}px;"/>
+    </view>
+</template>
+
+<script lang="TypeScript">
+    import wepy from 'wepy';
+    import AppConfig from '../../config/index'
+    export default class NavigationHeader extends wepy.component {
+        props = {
+            navigation: {
+                type: Object,
+                default: {
+                    title: '',
+                    background: '#fff',
+                    returnShow: true,
+                    homeShow: false,
+                    navHeight: AppConfig.navigationHeight,
+                    // 是否需要手动操作路由，不走这的路由
+                    isReturnHijack: false
+                }
+            }
+        }
+        data = {
+            // 状态栏的高度加上小程序右上角icon的高度
+            // navHeight: AppConfig.navigationHeight,
+            AppConfig,
+            statusBarHeight: AppConfig.statusBarHeight,
+            // 网络是否可用
+            networkConnected: 'conn'
+        };
+
+        onLoad () {
+            if(!this.navigation.homeShow){
+                this.navigation.homeShow = false;
+            }
+
+            if(!this.navigation.returnShow){
+                this.navigation.returnShow = false;
+            }
+
+            let _this = this;
+            wx.getNetworkType({
+                success: function (res) {
+                    // 返回网络类型, 有效值：wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
+                    console.log('返回网络类型, 有效值：', res)
+                    if (res.networkType == 'none'){
+                        _this.networkConnected = 'none';
+                        _this.$apply();
+                    }
+                } 
+            })
+           
+            
+        } 
+
+        methods = {
+            jumpToRoutes() {
+                if (this.navigation.returnShow) {
+                    this.$emit('navigate-header-back');
+                    if (this.navigation.isReturnHijack) {
+                        this.$emit('navigate-header-back-in');
+                        return;
+                    }
+                    wx.navigateBack()
+                  return;
+                }
+                if (this.navigation.homeShow) {
+                    wx.switchTab({
+                        url: '/pages/card-mine/index'
+                    });
+                }
+            }
+        }
+    }
+</script>

@@ -2,7 +2,7 @@
 
 <template>
     <view style="height: {{height}}px;overflow:auto">
-        <view class="module-one {{animation ? 'module-one-animation' : ''}}" style="height: {{height/2}}px">
+        <view wx:if="{{ifShow}}" class="module-one {{animation ? 'module-one-animation' : ''}}" style="height: {{height/2}}px">
             <text class="iconfont icon-aixin2" @tap="startAnimation"></text>
         </view>
         <view class="main-content">
@@ -40,9 +40,11 @@
                     </view>
                 </view>
             </view>
-            
+            <button class="add-daily"  catchtap="goAddDaily">
+                +
+            </button>
         </view>
-        <view class="module-two {{animation ? 'module-two-animation' : ''}}" style="height: {{height/2}}px">
+        <view wx:if="{{ifShow}}" class="module-two {{animation ? 'module-two-animation' : ''}}" style="height: {{height/2}}px">
         </view>
         
     </view>
@@ -58,7 +60,8 @@ import WebApi from './webapi'
           height: Config.windowHeight,
           animation: false,
           appMusic: '',
-          time: ''
+          time: '',
+          ifShow: true
       }
 
       async onLoad() {
@@ -78,16 +81,21 @@ import WebApi from './webapi'
       
 
       methods={
-          hahah() {
-              wx.navigateTo({
-                url: `/pages/emmit-special/index`
-                });
-          },
           startAnimation() {
               this.animation = true;
+              setTimeout(() => {
+                  this.ifShow = false;
+              }, 4000);
               this.$apply();
           }
       }
+
+        goAddDaily() {
+              console.log('----------ct---------');
+              wx.navigateTo({
+                url: `/pages/add-daily/index`
+                });
+          },
 
      /* 图片预览 */
     previewImage(e) {

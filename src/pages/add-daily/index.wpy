@@ -1,0 +1,115 @@
+<style lang="less" src="./index.less"></style>
+
+<template>
+    <view class="content-wrap">
+        <navigationHeader :navigation="navigation" />
+        <view class="item-area">
+            <textarea
+            placeholder-class="palceholder"
+            placeholder="写内容吧"
+            bindinput="changeContent"
+            bindfocus="focusHandle"
+            bindblur="blurHandle"
+            maxlength="1000"
+            value="{{content}}"
+            auto-height="true"
+             />
+        <view class="img-wrap">
+            <repeat for="{{images}}" key="index" index="index" item="item">
+            <view class="img-box">
+                <view class="close-btn" data-index="{{index}}" @tap="removeImg">
+                <text class="iconfont icon-guanbi"></text>
+                </view>
+                <image mode="aspectFill" src="{{item}}" data-src="{{item}}" @tap="previewImage"/>
+            </view>
+            </repeat>
+            <view wx:if="{{images.length<9}}" class="img-box box-bd"  @tap="addImage">
+                <text class="iconfont icon-crad-tupian"></text>
+                <text class="add-img-text">添加图片</text>
+            </view>
+        </view>
+            <view class="btn-warp" style="bottom:{{btnWrapBottom}}px">
+                <form bindsubmit="submit" report-submit="true">
+                    <button formType="submit" wx:if="{{!cannotPublish}}" class="save-button b4">发布</button>
+                </form>
+                <button wx:if="{{cannotPublish}}" class="save-button disable">发布</button>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script lang="TypeScript">
+import wepy from "wepy";
+import Config from '../../config/index';
+import NavigationHeader from '../../components/navigation-header/index';
+
+// import WebApi from './webapi'
+
+  export default class AddDaily extends wepy.page {
+      data={
+        navigation: {
+        title: '发布动态',
+        returnShow: true
+      },
+        height: Config.windowHeight,
+        animation: false,
+        appMusic: '',
+        time: '',
+        //选择的图片
+        images: [],
+        //图片上传递归计数
+        uploadCount: 0,
+        //上传图片返回的图片路径
+        uploadImages: [],
+        // 是否可以发布
+        cannotPublish: true
+          
+      }
+
+      components = {
+      navigationHeader: NavigationHeader
+    };
+
+      async onLoad() {
+            
+      }
+
+      
+
+      methods={
+          
+      }
+
+      /* 点击点击图片 */
+    addImage() {
+      wx.chooseImage({
+        count: 9 - this.images.length,
+        success: (res) => {
+          this.images = this.images.concat(res.tempFilePaths);
+          this.uploadCount = this.images.length;
+          this.cannotPublish= this.getPublishStatus();
+          this.$apply();
+        }
+      });
+    }
+
+    /* 删除图片 */
+    removeImg(e) {
+      const index = e.currentTarget.dataset.index;
+      const curImages = this.images;
+      curImages.splice(index, 1);
+      this.images = curImages;
+      this.cannotPublish= this.getPublishStatus();
+    }
+
+    getPublishStatus = () => {
+      return !this.content && !this.images.length
+    }
+
+
+
+  
+
+    }
+
+</script>
